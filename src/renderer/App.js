@@ -22,6 +22,8 @@ const Main = () => {
 
   const [command, setCommand] = useState('')
 
+  const validCommand = new RegExp("^[A-Z]{3}[1-9]{3} [C|L|A|H|T|W] [1-9]+[L|R|C]{0,1}$", "g")
+
   const onAircraftClick = (aircraft) => {
     setCommand(aircraft.name + ' ')
     document.getElementById('cmd-input').focus()
@@ -32,8 +34,22 @@ const Main = () => {
     /**
      * @TODO - implement command parsing 
      */
-    log.innerHTML += `<p>Running: ${command}</p><p>Result: <span style="color: red !important">ERROR: No backend created</span></p><p style="margin-top: -10px">--------------------------------</p>`
+    if(validCommand.test(command)) {
+      let message = ""
+      const cmd = command.split(' ')
+      if(!aircrafts.some(ac => ac.name === cmd[0])) {
+        message = `<span style="color: red !important">Invalid plane name given: ${cmd[0]} does not exist</span>`
+      }
+      else {
+        message = `<span style="color: white;">Roger That</span>`
+      }
+      log.innerHTML += `<p>Running: ${command}</p><p>Result: ${message}</p><p style="margin-top: -10px">--------------------------------</p>`
+    }
+    else {
+      log.innerHTML += `<p>Running: ${command}</p><p>Result: <span style="color: red !important">ERROR: Invalid command</span></p><p style="margin-top: -10px">--------------------------------</p>`
+    }
     setCommand('')
+
   }
 
   return (

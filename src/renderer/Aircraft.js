@@ -65,4 +65,19 @@ export default class Aircraft {
 
     set runway(r) { this._runway = r }
 
+    /**
+     * METHODS
+     */
+    getFlightData() {
+        return JSON.stringify({
+            id: this.id,
+            altitude: this.altitude,
+            name: this.name,
+            degree: this.degree,
+            speed: this.speed,
+            destination: this.destination,
+            runway: this.runway
+        })
+    }
+
 }

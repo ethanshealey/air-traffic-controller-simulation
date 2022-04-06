@@ -71,12 +71,12 @@ body {
 .log {
   width: 100%;
   background-color: #23334a;
-  height: 430px;
+  height: 435px;
   overflow: scroll;
   padding: 5px;
 } 
 .control-input {
-  margin-top: 12px;
+  margin-top: 10px;
   width: 100%;
   border: none;
   border-radius: 5px;
