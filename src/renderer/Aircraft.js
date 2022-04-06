@@ -20,10 +20,10 @@ export default class Aircraft {
         this._altitude = spawnInAir ? Math.floor(Math.random() * (8000 - 2000) + 2000) : 0
 
         // grab a random model from the JSON list of aircrafts
-        this._model = aircrafts[Math.floor(Math.random() * aircrafts.length)].value + ('' + Math.floor(Math.random() * (555 - 100) + 100))
+        this._name = aircrafts[Math.floor(Math.random() * aircrafts.length)].value + ('' + Math.floor(Math.random() * (555 - 100) + 100))
 
         // generate a starting degree
-        this._degree = '0' + Math.floor(Math.random() * 36)
+        this._degree = String(Math.floor(Math.random() * 36)).padStart(3, '0')
 
         // generate a speed
         this._speed = spawnInAir ? Math.floor(Math.random() * (600 - 200) + 200) : 0
@@ -42,7 +42,7 @@ export default class Aircraft {
 
     get altitude() { return this._altitude }
 
-    get model() { return this._model }
+    get name() { return this._name }
 
     get degree() { return this._degree }
 

@@ -2,6 +2,9 @@
  * @NOTE: Prepend a `~` to css file paths that are in your node_modules
  *        See https://github.com/webpack-contrib/sass-loader#imports
  */
+
+ @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap');
+
 body {
   position: relative;
   height: 100vh;
@@ -23,8 +26,64 @@ body {
 }
 
 .aircraft-display-card {
-  background: rgba(0,0,0,0.5);
+  background: #16263d;
   padding: 10px;
+  padding-bottom: 2px;
   border-radius: 5px;
-  align-items: center;
+  align-items: left;
+  width: 250px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  font-family: 'Courier Prime', monospace;
+}
+.aircraft-display-name {
+  width: 83px;
+  float: left;
+}
+.aircraft-display-deg-runway {
+  width: 83px;
+  float: left;
+}
+.aircraft-display-672-alt {
+  float: left !important;
+}
+.aircraft-display-model {
+  width: 83px;
+  float: left;
+}
+.lower-card {
+  margin-top: -15px;
+}
+.aircraft-list-wrapper {
+  width: 250px;
+  height: 490px;
+  overflow-y: scroll;
+  float: right;
+}
+.control-panel {
+  background: #16263d;
+  border-radius: 5px;
+  height: 490px;
+  width: 300px;
+  font-family: 'Courier Prime', monospace;
+  padding: 10px;
+}
+.log {
+  width: 100%;
+  background-color: #23334a;
+  height: 430px;
+  overflow: scroll;
+  padding: 5px;
+} 
+.control-input {
+  margin-top: 12px;
+  width: 100%;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  background-color: #23334a;
+  padding-left: 5px;
+}
+.control-input:focus {
+  outline: none;
 }

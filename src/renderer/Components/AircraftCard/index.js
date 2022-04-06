@@ -3,11 +3,16 @@ import { Space } from 'antd'
 
 const AircraftCard = (props) => {
   return (
-    <Space direction="vertical" className="aircraft-display-card">
-        <Space>
-            <h2>{props.aircraft._model}</h2>
-            
-        </Space>
+    <Space onClick={() => props.onAircraftClick(props.aircraft)} direction="vertical" className="aircraft-display-card" style={{ borderTop: "5px solid rgba(255,255,255, .25)" }}>
+        <div className="upper-card">
+            <p className="aircraft-display-name">{props.aircraft.name}</p>
+            <p className="aircraft-display-deg-runway">{props.aircraft.runway ? props.aircraft.runway : props.aircraft.degree}</p>
+            <p className="aircraft-display-672-alt">{!props.aircraft.runway ? `${props.aircraft.altitude}=` : '672=' }</p>
+        </div>
+        <div className="lower-card">
+          <p className="aircraft-display-model">E145</p>
+          <p className="aircraft-display-dest">{props.aircraft.destination === 'ORD' ? 'Arrival' : `To: ${props.aircraft.destination}` }</p>
+        </div>
     </Space>
   )
 }
