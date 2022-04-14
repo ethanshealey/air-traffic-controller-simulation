@@ -7,7 +7,7 @@ const AircraftCard = (props) => {
         <div className="upper-card">
             <p className="aircraft-display-name">{props.aircraft.name}</p>
             <p className="aircraft-display-deg-runway">{props.aircraft.runway ? props.aircraft.runway : props.aircraft.degree}</p>
-            <p className="aircraft-display-672-alt">{!props.aircraft.runway ? `${props.aircraft.altitude}=` : '672=' }</p>
+            <p className="aircraft-display-672-alt">{`${props.aircraft.altitude}=`}</p>
         </div>
         <div className="lower-card">
           <p className="aircraft-display-model">E145</p>

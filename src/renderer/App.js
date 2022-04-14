@@ -66,7 +66,7 @@ const Main = () => {
   }, [])
 
   // regex to validate a command is of valid syntax
-  const validCommand = new RegExp("^[A-Z]{3}[0-9]{3} [C|L|A|H|T|W|S] [0-9]+[L|R|C]{0,1}$", "g")
+  const validCommand = new RegExp("^[A-Z]{3}[0-9]{3} [C|L|A|H|T|W|S]\\s{0,1}[0-9]*[L|R|C]{0,1}$", "g")
 
   // function to handle clicks on the aircraft card
   const onAircraftClick = (aircraft) => {
@@ -98,7 +98,14 @@ const Main = () => {
   }
 
   const takeoffAircraft = async (aircraft) => {
+    // deploy and wait for aircraft to leave airspace
     delay(50000).then(() => {
+      setAircrafts(aircrafts.filter(ac => ac.name !== aircraft.name))
+    })
+  }
+
+  const landAircraft = async (aircraft) => {
+    delay(25000).then(() => {
       setAircrafts(aircrafts.filter(ac => ac.name !== aircraft.name))
     })
   }
@@ -150,7 +157,42 @@ const Main = () => {
         }
         // takeoff
         else if(cmd[1] === 'T') {
-          takeoffAircraft(aircraft)
+          if(aircraft.onGround) {
+            takeoffAircraft(aircraft)
+            aircraft.onGround = false
+            message = `
+              <span>Message recieved. Taking off from runway ${aircraft.runway}.</span>
+            `
+          }
+          else {
+            message = `
+              <span style="color: red !important">Invalid command: Aircraft not on runway.</span>`
+          }
+        }
+        // land
+        else if(cmd[1] === 'L') {
+          if(cmd.length === 3) {
+            if(!aircraft.onGround) {
+              if(runways.some(r => r.id === cmd[2])) {
+                aircraft.runway = cmd[2]
+                aircraft.onGround = true
+                message = `
+                  <span>Message recieved. Landing on runway ${cmd[2]}.</span>
+                `
+                landAircraft(aircraft)
+              }
+              else message = `
+                <span style="color: red !important">Invalid runway identifier: ${cmd[2]} does not exist</span>
+              `
+            }
+            else message = `
+              <span style="color: red !important">Invalid command: Aircraft already on ground.</span> 
+            `
+          }
+          else {
+            message = `
+              <span style="color: red !important">Invalid command syntax</span>`
+          }
         }
       }
       log.innerHTML += `
