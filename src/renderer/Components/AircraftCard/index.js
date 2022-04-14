@@ -3,7 +3,7 @@ import { Space } from 'antd'
 
 const AircraftCard = (props) => {
   return (
-    <Space onClick={() => props.onAircraftClick(props.aircraft)} direction="vertical" className="aircraft-display-card" style={{ borderTop: "5px solid rgba(255,255,255, .25)" }}>
+    <Space onClick={() => props.onAircraftClick(props.aircraft)} direction="vertical" className="aircraft-display-card" style={{ borderTop: `5px solid ${ props.aircraft.destination === 'ORD' ? '#c0e4fa' : '#fcf0c6' }` }}>
         <div className="upper-card">
             <p className="aircraft-display-name">{props.aircraft.name}</p>
             <p className="aircraft-display-deg-runway">{props.aircraft.runway ? props.aircraft.runway : props.aircraft.degree}</p>

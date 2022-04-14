@@ -17,7 +17,7 @@ export default class Aircraft {
         if(rnd % 2 === 0) spawnInAir = true
 
         // generate an altitude
-        this._altitude = spawnInAir ? Math.floor(Math.random() * (8000 - 2000) + 2000) : 0
+        this._altitude = spawnInAir ? String(Math.floor(Math.random() * (8 - 2) + 2)).padEnd(4, '0') : 672
 
         // grab a random model from the JSON list of aircrafts
         this._name = aircrafts[Math.floor(Math.random() * aircrafts.length)].value + ('' + Math.floor(Math.random() * (555 - 100) + 100))
@@ -32,7 +32,7 @@ export default class Aircraft {
         this._destination = spawnInAir ? 'ORD' : airports[Math.floor(Math.random() * airports.length)].value
 
         // if on ground assign runway
-        this._runway = spawnInAir ? null : runways[Math.floor(Math.random() * runways.length)]
+        this._runway = spawnInAir ? null : runways[Math.floor(Math.random() * runways.length)].id
     }
 
     /**
@@ -59,7 +59,7 @@ export default class Aircraft {
 
     set degree(d) { this._degree = d }
 
-    set speed(s) { this._speed = s }
+    set speed(s) { this._speed = s }    
 
     set destination(d) { this._destination = d }
 
@@ -79,5 +79,6 @@ export default class Aircraft {
             runway: this.runway
         })
     }
+
 
 }

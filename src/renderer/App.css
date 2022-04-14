@@ -59,12 +59,13 @@ body {
   height: 490px;
   overflow-y: scroll;
   float: right;
+
 }
 .control-panel {
   background: #16263d;
   border-radius: 5px;
   height: 490px;
-  width: 300px;
+  width: 500px;
   font-family: 'Courier Prime', monospace;
   padding: 10px;
 }
@@ -86,4 +87,7 @@ body {
 }
 .control-input:focus {
   outline: none;
+}
+.header {
+  text-align: center;
 }
