@@ -31,7 +31,7 @@ body {
   padding-bottom: 2px;
   border-radius: 5px;
   align-items: left;
-  width: 250px;
+  width: 287px;
   margin-bottom: 10px;
   cursor: pointer;
   font-family: 'Courier Prime', monospace;
@@ -51,16 +51,28 @@ body {
   width: 83px;
   float: left;
 }
+.aircraft-display-dest {
+  width: 83px;
+  float: left;
+}
+.aircraft-display-icon-wrapper {
+  width: 100px;
+  float: left;
+}
+.aircraft-display-icon {
+  position: relative;
+  top: 3px;
+}
 .lower-card {
   margin-top: -15px;
 }
 .aircraft-list-wrapper {
-  width: 250px;
+  width: 350px;
   height: 490px;
   overflow-y: scroll;
   float: right;
-
 }
+
 .control-panel {
   background: #16263d;
   border-radius: 5px;
@@ -90,4 +102,35 @@ body {
 }
 .header {
   text-align: center;
+}
+
+/* MODAL */
+
+.ant-modal-header {
+  background-color: #1F1F1F !important;
+  border-bottom: 1px solid #303030 !important;
+  font-family: 'Paytone One', sans-serif !important;
+}
+.ant-modal-title, .ant-modal-close {
+  color: #DEDEDE !important;
+}
+.ant-modal-footer {
+  background-color: #1F1F1F !important;
+  border-top: 1px solid #303030 !important;
+}
+.ant-modal-footer .ant-btn {
+  color: #DEDEDE !important;
+}
+.ant-tabs-tab-btn {
+  margin-top: 15px !important;
+  color: #dedede !important;
+}
+.ant-modal-body {
+  max-height: 400px !important;
+  overflow-y: scroll !important;
+}
+pre {
+  background-color: rgba(255,255,255,.075);
+  padding-left: 5px;
+  border-radius: 3px;
 }

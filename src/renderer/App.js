@@ -8,6 +8,7 @@ import AircraftWrapper from './Components/AircraftWrapper';
 import ControlPanel from './Components/ControlPanel';
 import runways_json from './runways.json'
 import delay from './delay';
+import HelpModal from './Components/HelpModal';
 
 /**
  * Main()
@@ -34,6 +35,9 @@ const Main = () => {
   // keep track of if the simulation has encounterd a failure
   const [failed, setFailed] = useState(false)
 
+  // boolean state for help modal
+  const [showHelpModal, setShowHelpModal] = useState(false)
+
   // onLoad, show welcome prompt in log and begin
   // generating aircrafts
   useEffect(() => {
@@ -51,12 +55,14 @@ const Main = () => {
     // create timer to generate aircrafts randomly every 5000ms
     // @NOTE: aircraft has a 50% chance to spawn every run
     const intvr = setInterval(() => {
-      const rnd = Math.floor(Math.random() * 100)
-      if(rnd % 2 !== 0) {
-        const newAircraft = new Aircraft()
-        // ensure no duplicates get added
-        if(aircrafts.filter(ac => ac.name === newAircraftname).length === 0) {
-          setAircrafts(ac => [...ac, new Aircraft()])
+      if(aircrafts.length <= 4) {
+        const rnd = Math.floor(Math.random() * 100)
+        if(rnd % 2 !== 0) {
+          const newAircraft = new Aircraft()
+          // ensure no duplicates get added
+          if(aircrafts.filter(ac => ac.name === newAircraftname).length === 0) {
+            setAircrafts(ac => [...ac, new Aircraft()])
+          }
         }
       }
     }, 5000)
@@ -99,14 +105,22 @@ const Main = () => {
 
   const takeoffAircraft = async (aircraft) => {
     // deploy and wait for aircraft to leave airspace
-    delay(50000).then(() => {
-      setAircrafts(aircrafts.filter(ac => ac.name !== aircraft.name))
+    aircraft.icon = 'aircraft-takeoff'
+    delay(3000).then(() => {
+      aircraft.icon = 'aircraft-flying'
+    })
+    delay(10000).then(() => {
+      setAircrafts(aircrafts => aircrafts.filter(ac => ac.name !== aircraft.name))
     })
   }
 
   const landAircraft = async (aircraft) => {
-    delay(25000).then(() => {
-      setAircrafts(aircrafts.filter(ac => ac.name !== aircraft.name))
+    aircraft.icon = 'aircraft-landing'
+    delay(5000).then(() => {
+      aircraft.icon = 'aircraft-on-ground'
+    })
+    delay(5000).then(() => {
+      setAircrafts(aircrafts => aircrafts.filter(ac => ac.name !== aircraft.name))
     })
   }
 
@@ -173,7 +187,12 @@ const Main = () => {
         else if(cmd[1] === 'L') {
           if(cmd.length === 3) {
             if(!aircraft.onGround) {
-              if(runways.some(r => r.id === cmd[2])) {
+              if(aircraft.altitude > 3000) {
+                message = `
+                  <span style="color: red !important">Invalid command: Aircraft is too high to land.</span>
+                `
+              }
+              else if(runways.some(r => r.id === cmd[2])) {
                 aircraft.runway = cmd[2]
                 aircraft.onGround = true
                 message = `
@@ -201,6 +220,8 @@ const Main = () => {
         <p style="margin-top: -10px">-------------------------------------------------------</p>`
     }
     else if(command.toUpperCase() === 'HELP') {
+      setShowHelpModal(true)
+      /*
       log.innerHTML += `
         <p>Running: ${command}</p>
         <p>Response: Welcome to the help page</p>
@@ -218,7 +239,7 @@ const Main = () => {
         <p>Other Commands:</p>
         <p>clear: Clears the log</p>
         </p>
-        <p style="margin-top: -10px">-------------------------------------------------------</p>`
+        <p style="margin-top: -10px">-------------------------------------------------------</p>`*/
     }
     else if(command.toUpperCase() === 'CLEAR') {
       log.innerHTML = ''
@@ -238,6 +259,7 @@ const Main = () => {
 
   return (
     <div>
+      <HelpModal showHelpModal={showHelpModal} setShowHelpModal={setShowHelpModal} />
       <h1 className="header">Welcome to Air Traffic Control Simulator v0.1</h1>
       <Space>
         <ControlPanel command={command} setCommand={setCommand} onCommand={onCommand}/>

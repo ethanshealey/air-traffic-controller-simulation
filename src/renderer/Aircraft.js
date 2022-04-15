@@ -36,6 +36,9 @@ export default class Aircraft {
 
         // boolean to check if craft is on ground
         this._onGround = spawnInAir ? false : true
+
+        // give aircraft an icon
+        this._icon = spawnInAir ? 'aircraft-in-air' : 'aircraft-on-ground'
     }
 
     /**
@@ -57,6 +60,8 @@ export default class Aircraft {
 
     get onGround() { return this._onGround }
 
+    get icon() { return this._icon }
+
     /**
      * SETTERS
      */
@@ -71,6 +76,8 @@ export default class Aircraft {
     set runway(r) { this._runway = r }
 
     set onGround(og) { this._onGround = og }
+
+    set icon(i) { this._icon = i }
 
     /**
      * METHODS
