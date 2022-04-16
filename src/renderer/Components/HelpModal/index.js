@@ -3,6 +3,7 @@ import { Modal, Button } from 'antd'
 import { GiAirplaneArrival, GiAirplaneDeparture, GiHelicopter } from 'react-icons/gi'
 import { IoIosAirplane } from 'react-icons/io'
 import { ImRoad } from 'react-icons/im'
+import runways_json from '../../runways.json'
 
 const HelpModal = (props) => {
   return (
@@ -21,8 +22,17 @@ const HelpModal = (props) => {
         <p><pre>AAL412 A     {`\<`}-- Aborts previously given command</pre></p>
         <br />
         <p>Other commands</p>
-        <p><pre>clear        {`\<`}-- Clears the log</pre></p>
-        <p><pre>help         {`\<`}-- Opens the help modal</pre></p>
+        <p><pre>clear {`\<`}-- Clears the log</pre></p>
+        <p><pre>help  {`\<`}-- Opens the help modal</pre></p>
+        <br />
+        <p>Runways</p>
+        <ul className='help-runway-list'>
+            {
+                runways_json.map((runway, index) => (
+                    <li>{runway.id}</li>
+                ))
+            }
+        </ul>
         <br />
         <p>Legend</p>
         <p><pre><span className="aircraft-display-icon"><IoIosAirplane /></span> {`\<`}-- Airborne airplane</pre></p>
@@ -36,22 +46,3 @@ const HelpModal = (props) => {
 
 export default HelpModal
 
-/*
-      log.innerHTML += `
-        <p>Running: ${command}</p>
-        <p>Response: Welcome to the help page</p>
-        <p>Basic usage: {Aircraft ID} {Command} [Sub Command]</p>
-        <p>Aircraft ID: 6 letter code of the aircraft, i.e AAL123<br>(Hint: Click on an aircraft in the list to automatically put the ID into the command input)</p>
-        <p>Command: C = Clear, L = Land, A = Abort, H = Hold, T = Takeoff, W = Line Up and Wait</p>
-        <p>Sub Command: The sub command can consist of items like runways, altitude, and degree
-        <br>Examples:
-        <br>AAL123 C 3 <- clears for 3000ft
-        <br>AAL123 C 035 <- clears for 35°
-        <br>AAL123 T <- tell plane to take off
-        <br>AAL123 L 24R<- tell plane to land on runway 24L
-        <br>AAL123 A <- aborts previously given command
-        <br>AAL123 H <- tells plane to hold
-        <p>Other Commands:</p>
-        <p>clear: Clears the log</p>
-        </p>
-        <p style="margin-top: -10px">-------------------------------------------------------</p>`*/

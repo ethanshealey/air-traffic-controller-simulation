@@ -106,9 +106,9 @@ const Main = () => {
   const takeoffAircraft = async (aircraft) => {
     // deploy and wait for aircraft to leave airspace
     aircraft.icon = 'aircraft-takeoff'
-    delay(3000).then(() => {
-      aircraft.icon = 'aircraft-flying'
-    })
+    //delay(3000).then(() => {
+    //  aircraft.icon = 'aircraft-flying'
+    //})
     delay(10000).then(() => {
       setAircrafts(aircrafts => aircrafts.filter(ac => ac.name !== aircraft.name))
     })
@@ -116,10 +116,10 @@ const Main = () => {
 
   const landAircraft = async (aircraft) => {
     aircraft.icon = 'aircraft-landing'
-    delay(5000).then(() => {
-      aircraft.icon = 'aircraft-on-ground'
-    })
-    delay(5000).then(() => {
+    //delay(5000).then(() => {
+    //  aircraft.icon = 'aircraft-on-ground'
+    //})
+    delay(10000).then(() => {
       setAircrafts(aircrafts => aircrafts.filter(ac => ac.name !== aircraft.name))
     })
   }
@@ -155,7 +155,7 @@ const Main = () => {
           }
           else if(cmd[2].length === 3) {
             // change degree
-
+            changeAircraftDegree(aircraft, cmd[2])
           }
         }
         // change aircraft speed
@@ -221,25 +221,6 @@ const Main = () => {
     }
     else if(command.toUpperCase() === 'HELP') {
       setShowHelpModal(true)
-      /*
-      log.innerHTML += `
-        <p>Running: ${command}</p>
-        <p>Response: Welcome to the help page</p>
-        <p>Basic usage: {Aircraft ID} {Command} [Sub Command]</p>
-        <p>Aircraft ID: 6 letter code of the aircraft, i.e AAL123<br>(Hint: Click on an aircraft in the list to automatically put the ID into the command input)</p>
-        <p>Command: C = Clear, L = Land, A = Abort, H = Hold, T = Takeoff, W = Line Up and Wait</p>
-        <p>Sub Command: The sub command can consist of items like runways, altitude, and degree
-        <br>Examples:
-        <br>AAL123 C 3 <- clears for 3000ft
-        <br>AAL123 C 035 <- clears for 35°
-        <br>AAL123 T <- tell plane to take off
-        <br>AAL123 L 24R<- tell plane to land on runway 24L
-        <br>AAL123 A <- aborts previously given command
-        <br>AAL123 H <- tells plane to hold
-        <p>Other Commands:</p>
-        <p>clear: Clears the log</p>
-        </p>
-        <p style="margin-top: -10px">-------------------------------------------------------</p>`*/
     }
     else if(command.toUpperCase() === 'CLEAR') {
       log.innerHTML = ''
