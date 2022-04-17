@@ -4,7 +4,14 @@
  */
 
  @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap');
-
+html {
+  background: linear-gradient(
+    200.96deg,
+    #1a2940 -29.09%,
+    #23334a 51.77%,
+    #2c3d57 129.35%
+  );
+}
 body {
   position: relative;
   height: 100vh;
@@ -121,19 +128,9 @@ pre {
   border-bottom: 1px solid #3e4959 !important;
   font-family: 'Paytone One', sans-serif !important;
 }
-.ant-modal-title, .ant-modal-close {
-  color: #DEDEDE !important;
-}
 .ant-modal-footer {
   background-color: #23334a !important;
   border-top: 1px solid #3e4959 !important;
-}
-.ant-modal-footer .ant-btn {
-  color: #DEDEDE !important;
-}
-.ant-tabs-tab-btn {
-  margin-top: 15px !important;
-  color: #dedede !important;
 }
 .ant-modal-body {
   max-height: 400px !important;
@@ -143,3 +140,4 @@ pre {
   background-color: transparent !important;
 }
 
+/* END MODAL */

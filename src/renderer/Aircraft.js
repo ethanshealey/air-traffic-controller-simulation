@@ -3,6 +3,7 @@ import airports from './data/airports.json'
 import runways from './data/runways.json'
 import airplane_models from './data/airplane-models.json'
 import helicopter_models from './data/helicopter-models.json'
+import delay from './delay'
 
 export default class Aircraft {
     constructor() {
@@ -107,6 +108,44 @@ export default class Aircraft {
             destination: this.destination,
             runway: this.runway
         })
+    }
+
+    land(cmd) {
+        
+        if(cmd.length === 3) {
+            if(!this._onGround) {
+              if(this._altitude > 3000) {
+                return `
+                  <span style="color: red !important">Invalid command: Aircraft is too high to land.</span>
+                `
+              }
+              else if(runways.some(r => r.id === cmd[2])) {
+                this._runway = cmd[2]
+                this._onGround = true
+                if(!this._isHelicopter) this._icon = 'aircraft-landing'
+                else this._icon = 'helicopter-landing'
+                return `
+                  <span>Message recieved. Landing on runway ${cmd[2]}.</span>
+                `
+                
+                //delay(5000).then(() => {
+                //  aircraft.icon = 'aircraft-on-ground'
+                //})
+                
+              }
+              else return `
+                <span style="color: red !important">Invalid runway identifier: ${cmd[2]} does not exist</span>
+              `
+            }
+            else return `
+              <span style="color: red !important">Invalid command: Aircraft already on ground.</span> 
+            `
+        }
+        else {
+            return `
+              <span style="color: red !important">Invalid command syntax</span>
+            `
+        }
     }
 
 

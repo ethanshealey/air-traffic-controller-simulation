@@ -84,6 +84,7 @@ const createWindow = async () => {
   });
 
   mainWindow.loadURL(resolveHtmlPath('index.html'));
+  mainWindow.setBackgroundColor('#23334a');
 
   mainWindow.on('ready-to-show', () => {
     if (!mainWindow) {

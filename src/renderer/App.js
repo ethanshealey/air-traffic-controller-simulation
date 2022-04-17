@@ -38,6 +38,9 @@ const Main = () => {
   // boolean state for help modal
   const [showHelpModal, setShowHelpModal] = useState(false)
 
+  // keep track of previous command history
+  const [history, setHistory] = useState([])
+
   // onLoad, show welcome prompt in log and begin
   // generating aircrafts
   useEffect(() => {
@@ -55,16 +58,14 @@ const Main = () => {
     // create timer to generate aircrafts randomly every 5000ms
     // @NOTE: aircraft has a 50% chance to spawn every run
     const intvr = setInterval(() => {
-      if(aircrafts.length <= 4) {
         const rnd = Math.floor(Math.random() * 100)
         if(rnd % 2 !== 0) {
           const newAircraft = new Aircraft()
           // ensure no duplicates get added
-          if(aircrafts.filter(ac => ac.name === newAircraftname).length === 0 && aircrafts.length < 10) {
+          if(aircrafts.filter(ac => ac.name === newAircraftname).length === 0) {
             setAircrafts(ac => [...ac, new Aircraft()])
           }
         }
-      }
     }, 5000)
 
     // clear the interval
@@ -117,18 +118,12 @@ const Main = () => {
   }
 
   const landAircraft = async (aircraft) => {
-    if(!aircraft.isHelicopter) aircraft.icon = 'aircraft-landing'
-    else aircraft.icon = 'helicopter-landing'
-    //delay(5000).then(() => {
-    //  aircraft.icon = 'aircraft-on-ground'
-    //})
-    delay(10000).then(() => {
-      setAircrafts(aircrafts => aircrafts.filter(ac => ac.name !== aircraft.name))
-    })
+    
   }
 
   // function to handle the command input
   const onCommand = () => {
+    setHistory(hs => [command, ...hs])
     const log = document.getElementById('log')
     /**
      * @TODO - implement command parsing 
@@ -200,33 +195,10 @@ const Main = () => {
         }
         // land
         else if(cmd[1] === 'L') {
-          if(cmd.length === 3) {
-            if(!aircraft.onGround) {
-              if(aircraft.altitude > 3000) {
-                message = `
-                  <span style="color: red !important">Invalid command: Aircraft is too high to land.</span>
-                `
-              }
-              else if(runways.some(r => r.id === cmd[2])) {
-                aircraft.runway = cmd[2]
-                aircraft.onGround = true
-                message = `
-                  <span>Message recieved. Landing on runway ${cmd[2]}.</span>
-                `
-                landAircraft(aircraft)
-              }
-              else message = `
-                <span style="color: red !important">Invalid runway identifier: ${cmd[2]} does not exist</span>
-              `
-            }
-            else message = `
-              <span style="color: red !important">Invalid command: Aircraft already on ground.</span> 
-            `
-          }
-          else {
-            message = `
-              <span style="color: red !important">Invalid command syntax</span>`
-          }
+          message = aircraft.land(cmd)
+          delay(10000).then(() => {
+            setAircrafts(aircrafts => aircrafts.filter(ac => ac.name !== aircraft.name))
+          })
         }
       }
       log.innerHTML += `
@@ -258,7 +230,7 @@ const Main = () => {
       <HelpModal showHelpModal={showHelpModal} setShowHelpModal={setShowHelpModal} />
       <h1 className="header">Welcome to Air Traffic Control Simulator v0.1</h1>
       <Space>
-        <ControlPanel command={command} setCommand={setCommand} onCommand={onCommand}/>
+        <ControlPanel command={command} setCommand={setCommand} onCommand={onCommand} history={history} />
         <AircraftWrapper aircrafts={aircrafts} onAircraftClick={onAircraftClick} />
       </Space>
     </div>
