@@ -3,6 +3,7 @@ import { Space } from 'antd'
 import { GiAirplaneArrival, GiAirplaneDeparture, GiHelicopter } from 'react-icons/gi'
 import { IoIosAirplane } from 'react-icons/io'
 import { ImRoad } from 'react-icons/im'
+import { BsArrowDown, BsArrowUp } from 'react-icons/bs'
 
 const AircraftCard = (props) => {
 
@@ -31,13 +32,15 @@ const AircraftCard = (props) => {
             <p className="aircraft-display-672-alt">{`${props.aircraft.altitude}=`}</p>
         </div>
         <div className="lower-card">
-          <p className="aircraft-display-model">E145</p>
+          <p className="aircraft-display-model">{props.aircraft.model}</p>
           <p className="aircraft-display-dest">{props.aircraft.destination === 'ORD' ? 'Arrival' : `To: ${props.aircraft.destination}` }</p>
           <p className="aircraft-display-icon-wrapper">Status: <span className="aircraft-display-icon">{
             props.aircraft.icon === 'aircraft-on-ground' ? <ImRoad /> : 
             props.aircraft.icon === 'aircraft-takeoff' ? <GiAirplaneDeparture /> :
             props.aircraft.icon === 'aircraft-landing' ? <GiAirplaneArrival /> :
             props.aircraft.icon === 'helicopter' ? <GiHelicopter /> :
+            props.aircraft.icon === 'helicopter-takeoff' ? <><GiHelicopter /><BsArrowUp /></> :
+            props.aircraft.icon === 'helicopter-landing' ? <><GiHelicopter /><BsArrowDown /></> :
             <IoIosAirplane />
           }</span></p>
         </div>

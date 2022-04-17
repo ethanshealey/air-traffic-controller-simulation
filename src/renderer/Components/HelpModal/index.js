@@ -3,11 +3,12 @@ import { Modal, Button } from 'antd'
 import { GiAirplaneArrival, GiAirplaneDeparture, GiHelicopter } from 'react-icons/gi'
 import { IoIosAirplane } from 'react-icons/io'
 import { ImRoad } from 'react-icons/im'
-import runways_json from '../../runways.json'
+import { BsArrowDown, BsArrowUp } from 'react-icons/bs'
+import runways_json from '../../data/runways.json'
 
 const HelpModal = (props) => {
   return (
-    <Modal cancelButtonProps={{ type: 'ghost' }} width="600px" bodyStyle={{ backgroundColor: '#1F1F1F' }} centered title="Welcome to the help page!" visible={props.showHelpModal} onCancel={() => props.setShowHelpModal(false)} footer={
+    <Modal cancelButtonProps={{ type: 'ghost' }} width="600px" bodyStyle={{ backgroundColor: '#23334a' }} centered title="Welcome to the help page!" visible={props.showHelpModal} onCancel={() => props.setShowHelpModal(false)} footer={
         [
             <Button type='primary' onClick={() => props.setShowHelpModal(false)}>Close</Button>
         ]}
@@ -35,11 +36,14 @@ const HelpModal = (props) => {
         </ul>
         <br />
         <p>Legend</p>
-        <p><pre><span className="aircraft-display-icon"><IoIosAirplane /></span> {`\<`}-- Airborne airplane</pre></p>
-        <p><pre><span className="aircraft-display-icon"><GiHelicopter /></span> {`\<`}-- Airborne helicopter</pre></p>
-        <p><pre><span className="aircraft-display-icon"><GiAirplaneDeparture /></span> {`\<`}-- Airplane taking off</pre></p>
-        <p><pre><span className="aircraft-display-icon"><GiAirplaneArrival /></span> {`\<`}-- Airplane landing</pre></p>
-        <p><pre><span className="aircraft-display-icon"><ImRoad /></span> {`\<`}-- Aircraft on runway</pre></p>
+        <p><pre><span className="aircraft-display-icon"><IoIosAirplane /></span>   {`\<`}-- Airborne airplane</pre></p>
+        <p><pre><span className="aircraft-display-icon"><GiAirplaneDeparture /></span>   {`\<`}-- Airplane taking off</pre></p>
+        <p><pre><span className="aircraft-display-icon"><GiAirplaneArrival /></span>   {`\<`}-- Airplane landing</pre></p>
+        <p><pre><span className="aircraft-display-icon"><ImRoad /></span>   {`\<`}-- Aircraft on runway</pre></p>
+        <p><pre><span className="aircraft-display-icon"><GiHelicopter /></span>   {`\<`}-- Airborne helicopter</pre></p>
+        <p><pre><span className="aircraft-display-icon"><GiHelicopter /><BsArrowUp /></span> {`\<`}-- Helicopter taking off</pre></p>
+        <p><pre><span className="aircraft-display-icon"><GiHelicopter /><BsArrowDown /></span> {`\<`}-- Helicopter landing</pre></p>
+
     </Modal>
   )
 }

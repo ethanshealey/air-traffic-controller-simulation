@@ -67,7 +67,7 @@ body {
   margin-top: -15px;
 }
 .aircraft-list-wrapper {
-  width: 350px;
+  width: 287px;
   height: 490px;
   overflow-y: scroll;
   float: right;
@@ -103,20 +103,30 @@ body {
 .header {
   text-align: center;
 }
+pre {
+  background-color: rgba(255,255,255,.075);
+  padding-left: 5px;
+  border-radius: 3px;
+}
+.help-runway-list {
+  columns: 4;
+  -webkit-columns: 4;
+  -moz-columns: 4;
+}
 
 /* MODAL */
 
 .ant-modal-header {
-  background-color: #1F1F1F !important;
-  border-bottom: 1px solid #303030 !important;
+  background-color: #23334a !important;
+  border-bottom: 1px solid #3e4959 !important;
   font-family: 'Paytone One', sans-serif !important;
 }
 .ant-modal-title, .ant-modal-close {
   color: #DEDEDE !important;
 }
 .ant-modal-footer {
-  background-color: #1F1F1F !important;
-  border-top: 1px solid #303030 !important;
+  background-color: #23334a !important;
+  border-top: 1px solid #3e4959 !important;
 }
 .ant-modal-footer .ant-btn {
   color: #DEDEDE !important;
@@ -129,13 +139,7 @@ body {
   max-height: 400px !important;
   overflow-y: scroll !important;
 }
-pre {
-  background-color: rgba(255,255,255,.075);
-  padding-left: 5px;
-  border-radius: 3px;
+.ant-modal-content {
+  background-color: transparent !important;
 }
-.help-runway-list {
-  columns: 4;
-  -webkit-columns: 4;
-  -moz-columns: 4;
-}
+

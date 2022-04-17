@@ -6,7 +6,7 @@ import Aircraft from './Aircraft'
 import { useState, useEffect } from 'react'
 import AircraftWrapper from './Components/AircraftWrapper';
 import ControlPanel from './Components/ControlPanel';
-import runways_json from './runways.json'
+import runways_json from './data/runways.json'
 import delay from './delay';
 import HelpModal from './Components/HelpModal';
 
@@ -60,7 +60,7 @@ const Main = () => {
         if(rnd % 2 !== 0) {
           const newAircraft = new Aircraft()
           // ensure no duplicates get added
-          if(aircrafts.filter(ac => ac.name === newAircraftname).length === 0) {
+          if(aircrafts.filter(ac => ac.name === newAircraftname).length === 0 && aircrafts.length < 10) {
             setAircrafts(ac => [...ac, new Aircraft()])
           }
         }
@@ -86,13 +86,14 @@ const Main = () => {
    * AIRCRAFT FUNCTIONS
    */
   const changeAircraftAltitude = (aircraft, altitude) => {
+
     aircraft.altitude = String(altitude).padEnd(4, '0')
-    if(parseInt(aircraft.altitude) < 672) {
+    /*if(parseInt(aircraft.altitude) < 672) {
       document.getElementById('log').innerHTML += `
         <p style="color: red !important">${aircraft.name} collided with the ground! You lost!</p>
       `
       setFailed(true)
-    }
+    }*/
   }
 
   const changeAircraftSpeed = (aircraft, speed) => {
@@ -105,7 +106,8 @@ const Main = () => {
 
   const takeoffAircraft = async (aircraft) => {
     // deploy and wait for aircraft to leave airspace
-    aircraft.icon = 'aircraft-takeoff'
+    if(!aircraft.isHelicopter) aircraft.icon = 'aircraft-takeoff'
+    else aircraft.icon = 'helicopter-takeoff'
     //delay(3000).then(() => {
     //  aircraft.icon = 'aircraft-flying'
     //})
@@ -115,7 +117,8 @@ const Main = () => {
   }
 
   const landAircraft = async (aircraft) => {
-    aircraft.icon = 'aircraft-landing'
+    if(!aircraft.isHelicopter) aircraft.icon = 'aircraft-landing'
+    else aircraft.icon = 'helicopter-landing'
     //delay(5000).then(() => {
     //  aircraft.icon = 'aircraft-on-ground'
     //})
@@ -134,6 +137,7 @@ const Main = () => {
       let message = ""
       const cmd = command.split(' ')
 
+      // check aircraft exists
       if(!aircrafts.some(ac => ac.name === cmd[0])) {
         message = ` 
           <span style="color: red !important">Invalid plane name given: ${cmd[0]} does not exist</span>`
@@ -157,6 +161,10 @@ const Main = () => {
             // change degree
             changeAircraftDegree(aircraft, cmd[2])
           }
+          else 
+            message = `
+              <span style="color: red !important">Invalid command syntax</span>
+            `
         }
         // change aircraft speed
         else if(cmd[1] === 'S') {
@@ -172,11 +180,18 @@ const Main = () => {
         // takeoff
         else if(cmd[1] === 'T') {
           if(aircraft.onGround) {
+            if(aircraft.altitude !== "672") {
             takeoffAircraft(aircraft)
             aircraft.onGround = false
             message = `
               <span>Message recieved. Taking off from runway ${aircraft.runway}.</span>
             `
+            }
+            else {
+              message = `
+                <span style="color: red !important">Aircraft must be cleared for a certain altitude before taking off.</span>
+              `
+            }
           }
           else {
             message = `

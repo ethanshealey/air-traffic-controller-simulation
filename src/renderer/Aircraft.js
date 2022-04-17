@@ -1,10 +1,8 @@
-import aircrafts from './aircrafts.json'
-/****
- * NOTE: aircaft.json is a json file that contains all the aircrafts, sourced from
- * https://gist.github.com/tormjens/0e2a1a5e0e69c50a9046e01bf993bb7e
- */
-import airports from './airports.json'
-import runways from './runways.json'
+import aircrafts from './data/aircrafts.json'
+import airports from './data/airports.json'
+import runways from './data/runways.json'
+import airplane_models from './data/airplane-models.json'
+import helicopter_models from './data/helicopter-models.json'
 
 export default class Aircraft {
     constructor() {
@@ -13,8 +11,12 @@ export default class Aircraft {
 
         // determine if aircraft spawns on ground or in air
         const rnd = Math.floor(Math.random() * 100)
-        let spawnInAir = false
+        let spawnInAir = false, isHelicopter = false
         if(rnd % 2 === 0) spawnInAir = true
+        if(rnd <= 25) isHelicopter = true
+
+        // determine if helicopter
+        this._isHelicopter = isHelicopter
 
         // generate an altitude
         this._altitude = spawnInAir ? String(Math.floor(Math.random() * (8 - 2) + 2)).padEnd(4, '0') : String(672)
@@ -35,10 +37,15 @@ export default class Aircraft {
         this._runway = spawnInAir ? null : runways[Math.floor(Math.random() * runways.length)].id
 
         // boolean to check if craft is on ground
-        this._onGround = spawnInAir ? false : true
+        this._onGround = !spawnInAir
 
         // give aircraft an icon
-        this._icon = spawnInAir ? 'aircraft-in-air' : 'aircraft-on-ground'
+        this._icon = spawnInAir ? isHelicopter ? 'helicopter' : 'aircraft-in-air' : 'aircraft-on-ground'
+
+        // assign aircraft model
+        this._model = isHelicopter ? helicopter_models[Math.floor(Math.random() * helicopter_models.length)].value : airplane_models[Math.floor(Math.random() * airplane_models.length)].value
+
+       
     }
 
     /**
@@ -62,6 +69,10 @@ export default class Aircraft {
 
     get icon() { return this._icon }
 
+    get model() { return this._model }
+
+    get isHelicopter() { return this._isHelicopter }
+
     /**
      * SETTERS
      */
@@ -78,6 +89,10 @@ export default class Aircraft {
     set onGround(og) { this._onGround = og }
 
     set icon(i) { this._icon = i }
+
+    set model(m) { this._model = m }
+
+    
 
     /**
      * METHODS
