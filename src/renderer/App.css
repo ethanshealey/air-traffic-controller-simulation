@@ -4,6 +4,8 @@
  */
 
  @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap');
+ @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Josefin+Sans:wght@700&display=swap');
+
 html {
   background: linear-gradient(
     200.96deg,
@@ -119,6 +121,97 @@ pre {
   columns: 4;
   -webkit-columns: 4;
   -moz-columns: 4;
+}
+
+.start-screen {
+  text-align: center;
+  height: 200px;
+}
+
+.play-btn {
+  border: 5px solid #16263d;
+  background-color: #16263d;
+  padding: 10px;
+  padding-left: 30px;
+  padding-right: 30px;
+  font-size: 25px;
+  border-radius: 25px;
+  transition: .5s;
+  margin-left: 15px;
+  font-family: 'Josefin Sans', sans-serif;
+  height: 65px;
+}
+.play-btn:hover {
+  background-color:#23334a;
+}
+.diff-btn {
+  cursor: pointer;
+  border: 5px solid #16263d;
+  background-color: #16263d;
+  padding: 10px;
+  padding-left: 30px;
+  padding-right: 30px;
+  font-size: 25px;
+  border-radius: 25px;
+  transition: .5s;
+  width: 190px;
+  height: 65px;
+  font-family: 'Josefin Sans', sans-serif;
+}
+select {
+  
+  outline: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23fff%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
+    background-repeat: no-repeat, repeat;
+    background-position: right .7em top 50%, 0 0;
+    background-size: .65em auto, 100%;
+}
+
+select:focus {
+  outline: none;
+}
+
+/* For IE (thanks to @SaiManoj) */
+select::-ms-expand {
+  display: none;
+}
+.diff-btn:hover {
+  background-color:#23334a;
+}
+.start-header {
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 40px;
+}
+
+.start-header-kern {
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 40px;
+  position: relative;
+  margin-top: -44px;
+  letter-spacing: 38.5px;
+  margin-left: 39.5px;
+  transform: scale(1, .95);
+}
+.start-screen-btn-container {
+  display: flex;
+  justify-content: center;
+}
+.diff-input:focus {
+  outline: none;
+}
+
+.copy {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  color: rgba(255,255,255, .75) !important;
+  padding-bottom: 5px;
 }
 
 /* MODAL */

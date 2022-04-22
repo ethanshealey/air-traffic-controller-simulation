@@ -12,9 +12,7 @@ export default class Aircraft {
 
         // determine if aircraft spawns on ground or in air
         const rnd = Math.floor(Math.random() * 100)
-        let spawnInAir = false, isHelicopter = false
-        if(rnd % 2 === 0) spawnInAir = true
-        if(rnd <= 25) isHelicopter = true
+        let spawnInAir = rnd % 2 === 0, isHelicopter = rnd <= 25
 
         // determine if helicopter
         this._isHelicopter = isHelicopter
@@ -77,9 +75,9 @@ export default class Aircraft {
     /**
      * SETTERS
      */
-    set altitude(a) { this._altitude = a }
+    set altitude(a) { this._altitude = a.length === 1 ? String(a).padEnd(4, '0') : String(a).padEnd(5, '0') }
 
-    set degree(d) { this._degree = d }
+    set degree(d) { this._degree = String(d).padStart(3, '0') }
 
     set speed(s) { this._speed = s }    
 
@@ -127,11 +125,6 @@ export default class Aircraft {
                 return `
                   <span>Message recieved. Landing on runway ${cmd[2]}.</span>
                 `
-                
-                //delay(5000).then(() => {
-                //  aircraft.icon = 'aircraft-on-ground'
-                //})
-                
               }
               else return `
                 <span style="color: red !important">Invalid runway identifier: ${cmd[2]} does not exist</span>
@@ -146,6 +139,28 @@ export default class Aircraft {
               <span style="color: red !important">Invalid command syntax</span>
             `
         }
+    }
+
+    takeoff() {
+      if(this._onGround) {
+        if(this._altitude !== "672") {
+        if(!this._isHelicopter) this._icon = 'aircraft-takeoff'
+        else this._icon = 'helicopter-takeoff'
+        this._onGround = false
+        return `
+          <span>Message recieved. Taking off from runway ${this._runway}.</span>
+        `
+        }
+        else {
+          return`
+            <span style="color: red !important">Aircraft must be cleared for a certain altitude before taking off.</span>
+          `
+        }
+      }
+      else {
+        return `
+          <span style="color: red !important">Invalid command: Aircraft not on runway.</span>`
+      }
     }
 
 

@@ -9,6 +9,9 @@ import ControlPanel from './Components/ControlPanel';
 import runways_json from './data/runways.json'
 import delay from './delay';
 import HelpModal from './Components/HelpModal';
+import StartScreen from './Components/StartScreen'
+import FadeIn from 'react-fade-in'
+
 
 /**
  * Main()
@@ -24,7 +27,7 @@ import HelpModal from './Components/HelpModal';
  * generated in the simulation.
  */
 
-const Main = () => {
+const Main = (props) => {
 
   // Declare states to contain the aircraft and runways
   // and the command input value
@@ -66,14 +69,14 @@ const Main = () => {
             setAircrafts(ac => [...ac, new Aircraft()])
           }
         }
-    }, 5000)
+    }, props.difficulty === 'easy' ? 10000 : props.difficulty === 'medium' ? 5000 : 2500)
 
     // clear the interval
     return () => clearInterval(intvr)
   }, [])
 
   // regex to validate a command is of valid syntax
-  const validCommand = new RegExp("^[A-Z]{3}[0-9]{3} [C|L|A|H|T|W|S]\\s{0,1}[0-9]*[L|R|C]{0,1}$", "g")
+  const validCommand = new RegExp("^[A-Z]{3}[0-9]{3} [C|c|L|l|A|a|H|h|T|t|W|w|S|s]\\s{0,1}[0-9]*[L|R|C]{0,1}$", "g")
 
   // function to handle clicks on the aircraft card
   const onAircraftClick = (aircraft) => {
@@ -81,44 +84,6 @@ const Main = () => {
     // aircrafts identifier and focus the input
     setCommand(aircraft.name + ' ')
     document.getElementById('cmd-input').focus()
-  }
-
-  /**
-   * AIRCRAFT FUNCTIONS
-   */
-  const changeAircraftAltitude = (aircraft, altitude) => {
-
-    aircraft.altitude = String(altitude).padEnd(4, '0')
-    /*if(parseInt(aircraft.altitude) < 672) {
-      document.getElementById('log').innerHTML += `
-        <p style="color: red !important">${aircraft.name} collided with the ground! You lost!</p>
-      `
-      setFailed(true)
-    }*/
-  }
-
-  const changeAircraftSpeed = (aircraft, speed) => {
-    aircraft.speed = speed
-  }
-
-  const changeAircraftDegree = (aircraft, degree) => {
-    aircraft.degree = String(degree).padStart(3, '0')
-  }
-
-  const takeoffAircraft = async (aircraft) => {
-    // deploy and wait for aircraft to leave airspace
-    if(!aircraft.isHelicopter) aircraft.icon = 'aircraft-takeoff'
-    else aircraft.icon = 'helicopter-takeoff'
-    //delay(3000).then(() => {
-    //  aircraft.icon = 'aircraft-flying'
-    //})
-    delay(10000).then(() => {
-      setAircrafts(aircrafts => aircrafts.filter(ac => ac.name !== aircraft.name))
-    })
-  }
-
-  const landAircraft = async (aircraft) => {
-    
   }
 
   // function to handle the command input
@@ -130,7 +95,7 @@ const Main = () => {
      */
     if(validCommand.test(command)) {
       let message = ""
-      const cmd = command.split(' ')
+      const cmd = command.toUpperCase().split(' ')
 
       // check aircraft exists
       if(!aircrafts.some(ac => ac.name === cmd[0])) {
@@ -149,12 +114,18 @@ const Main = () => {
         if(cmd[1] === 'C') {
           if(cmd[2].length === 1 || cmd[2].length === 2) {
             // change altitude
-            changeAircraftAltitude(aircraft, cmd[2])
+            aircraft.altitude = cmd[2]
             message = `Command recieved. Changing altitude of ${cmd[0]} to ${String(cmd[2]).padEnd(4,'0')}ft.`
           }
           else if(cmd[2].length === 3) {
             // change degree
-            changeAircraftDegree(aircraft, cmd[2])
+            if(cmd[2] > 360 || cmd[2] < 0) {
+
+            }
+            else {
+              aircraft.degree = cmd[2]
+              message = `Command recieved. Changing degree of ${cmd[0]} to ${String(cmd[2]).padEnd(4,'0')}ft.`
+            }
           }
           else 
             message = `
@@ -174,24 +145,10 @@ const Main = () => {
         }
         // takeoff
         else if(cmd[1] === 'T') {
-          if(aircraft.onGround) {
-            if(aircraft.altitude !== "672") {
-            takeoffAircraft(aircraft)
-            aircraft.onGround = false
-            message = `
-              <span>Message recieved. Taking off from runway ${aircraft.runway}.</span>
-            `
-            }
-            else {
-              message = `
-                <span style="color: red !important">Aircraft must be cleared for a certain altitude before taking off.</span>
-              `
-            }
-          }
-          else {
-            message = `
-              <span style="color: red !important">Invalid command: Aircraft not on runway.</span>`
-          }
+          message = aircraft.takeoff(cmd)
+          delay(10000).then(() => {
+            setAircrafts(aircrafts => aircrafts.filter(ac => ac.name !== aircraft.name))
+          })
         }
         // land
         else if(cmd[1] === 'L') {
@@ -226,23 +183,29 @@ const Main = () => {
   }
 
   return (
-    <div>
+    <FadeIn>
       <HelpModal showHelpModal={showHelpModal} setShowHelpModal={setShowHelpModal} />
       <h1 className="header">Welcome to Air Traffic Control Simulator v0.1</h1>
       <Space>
         <ControlPanel command={command} setCommand={setCommand} onCommand={onCommand} history={history} />
         <AircraftWrapper aircrafts={aircrafts} onAircraftClick={onAircraftClick} />
       </Space>
-    </div>
+    </FadeIn>
   );
 };
 
 export default function App() {
+
+  // keep track of the difficulty
+  const [difficulty, setDifficulty] = useState('easy')
+
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Main />} />
+        <Route path="/" element={<StartScreen difficulty={difficulty} setDifficulty={setDifficulty} />} />
+        <Route path="/play" element={<Main difficulty={difficulty} setDifficulty={setDifficulty} />} />
       </Routes>
+      <div className="copy">&copy; What's Up Doc 2022</div>
     </Router>
   );
 }
