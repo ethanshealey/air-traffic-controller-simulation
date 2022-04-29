@@ -7,6 +7,7 @@ import { BsArrowDown, BsArrowUp, BsArrowLeft } from 'react-icons/bs'
 import runways_json from '../../data/runways.json'
 
 const HelpModal = (props) => {
+
   return (
     <Modal cancelButtonProps={{ type: 'ghost' }} width="600px" bodyStyle={{ backgroundColor: '#23334a' }} centered title="Welcome to the help page!" visible={props.showHelpModal} onCancel={() => props.setShowHelpModal(false)} footer={
         [

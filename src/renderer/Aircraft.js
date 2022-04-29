@@ -75,9 +75,9 @@ export default class Aircraft {
     /**
      * SETTERS
      */
-    set altitude(a) { this._altitude = a.length === 1 ? String(a).padEnd(4, '0') : String(a).padEnd(5, '0') }
+    set altitude(a) { this._altitude =  String(parseInt(a)).padEnd(String(parseInt(a)).length === 1 ? 4 : 5, '0') }
 
-    set degree(d) { this._degree = String(d).padStart(3, '0') }
+    set degree(d) { this._degree = String(parseInt(d)) }
 
     set speed(s) { this._speed = s }    
 

@@ -88,6 +88,7 @@ const Main = (props) => {
 
   // function to handle the command input
   const onCommand = () => {
+    if(command.length <= 0) return
     setHistory(hs => [command, ...hs])
     const log = document.getElementById('log')
     /**
@@ -112,25 +113,38 @@ const Main = (props) => {
 
         // Clearing for either alt or deg
         if(cmd[1] === 'C') {
-          if(cmd[2].length === 1 || cmd[2].length === 2) {
-            // change altitude
-            aircraft.altitude = cmd[2]
-            message = `Command recieved. Changing altitude of ${cmd[0]} to ${String(cmd[2]).padEnd(4,'0')}ft.`
-          }
-          else if(cmd[2].length === 3) {
-            // change degree
-            if(cmd[2] > 360 || cmd[2] < 0) {
-
+          if(cmd.length === 3) {
+            if(cmd[2].length === 1 || cmd[2].length === 2) {
+              // change altitude
+              if(/^\d+$/.test(cmd[2])) {
+                aircraft.altitude = cmd[2]
+                message = `Command recieved. Changing altitude of ${cmd[0]} to ${String(cmd[2]).padEnd(4,'0')}ft.`
+              }
+              else {
+                message = `
+                  <span style="color: red !important">Invalid altitude given: ${cmd[2]}</span>`
+              }
             }
-            else {
-              aircraft.degree = cmd[2]
-              message = `Command recieved. Changing degree of ${cmd[0]} to ${String(cmd[2]).padEnd(4,'0')}ft.`
+            else if(cmd[2].length === 3) {
+              // change degree
+              if(cmd[2] > 360 || cmd[2] < 0) {
+                message = `
+                  <span style="color: red !important">Invalid degree given: ${cmd[2]}</span>`
+              }
+              else {
+                aircraft.degree = cmd[2]
+                message = `Command recieved. Changing degree of ${cmd[0]} to ${String(cmd[2])}°.`
+              }
             }
+            else 
+              message = `
+                <span style="color: red !important">Invalid command syntax</span>
+              `
           }
-          else 
+          else {
             message = `
-              <span style="color: red !important">Invalid command syntax</span>
-            `
+              <span style="color: red !important">Invalid command syntax: ${command}</span>`
+          }
         }
         // change aircraft speed
         else if(cmd[1] === 'S') {
