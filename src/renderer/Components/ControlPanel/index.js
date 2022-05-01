@@ -13,7 +13,8 @@ const ControlPanel = (props) => {
     else if(e.key === "ArrowUp" || e.which === 38) {
       props.setCommand(cmd => props.history[historyIndex === 0 ? 0 : historyIndex + 1 === props.history.length ? historyIndex : historyIndex + 1])
       setHistoryIndex(hs => hs + 1 === props.history.length ? hs : hs + 1)
-      const input = document.getElementById('cmd-input'), end = input.value.length
+      const input = document.getElementById('cmd-input')
+      const end = e.target.value.length
       input.setSelectionRange(end, end)
       input.focus()
       return
@@ -21,7 +22,8 @@ const ControlPanel = (props) => {
     else if(e.key === "ArrowDown" || e.which === 40) {
       props.setCommand(cmd => historyIndex === 0 ? '' : props.history[historyIndex - 1])
       setHistoryIndex(hs => hs === 0 ? hs : hs - 1)
-      const input = document.getElementById('cmd-input'), end = input.value.length
+      const input = document.getElementById('cmd-input')
+      const end = e.target.value.length
       input.setSelectionRange(end, end)
       input.focus()
       return

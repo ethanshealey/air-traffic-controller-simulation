@@ -3,7 +3,7 @@ import airports from './data/airports.json'
 import runways from './data/runways.json'
 import airplane_models from './data/airplane-models.json'
 import helicopter_models from './data/helicopter-models.json'
-import delay from './delay'
+import delay from './helpers/delay'
 
 export default class Aircraft {
     constructor() {
