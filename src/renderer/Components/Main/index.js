@@ -109,8 +109,12 @@ const Main = (props) => {
             if(cmd[2].length === 1 || cmd[2].length === 2) {
               // change altitude
               if(/^\d+$/.test(cmd[2])) {
-                aircraft.altitude = cmd[2]
-                message = `Command recieved. Changing altitude of ${cmd[0]} to ${String(cmd[2]).padEnd(4,'0')}ft.`
+                if(cmd[2] < 1) message = `<span style="color: red !important">Invalid altitude given: ${cmd[2]} (Must be above 672 feet)</span>`
+                else if(cmd[2] > 30) message = `<span style="color: red !important">Invalid altitude given: ${cmd[2]} (Must be under 30,000ft)</span>`
+                else {
+                  aircraft.altitude = cmd[2]
+                  message = `Command recieved. Changing altitude of ${cmd[0]} to ${String(cmd[2]).padEnd(4,'0')}ft.`
+                }
               }
               else {
                 message = `
@@ -202,7 +206,7 @@ const Main = (props) => {
     else {
       log.innerHTML += `
         <p>Running: ${command}</p>
-        <p>Response: <span style="color: red !important">ERROR: Invalid command</span></p>
+        <p>Response: <span style="color: red !important">Invalid command</span></p>
         <p style="margin-top: -10px">-------------------------------------------------------</p>`
     }
 
@@ -215,7 +219,7 @@ const Main = (props) => {
   return (
     <FadeIn>
       <HelpModal showHelpModal={showHelpModal} setShowHelpModal={setShowHelpModal} />
-      <h1 className="header">Welcome to Air Traffic Control Simulator v0.1</h1>
+      <h1 className="header">Welcome to Air Traffic Control Simulator</h1>
       <Space>
         <ControlPanel command={command} setCommand={setCommand} onCommand={onCommand} history={history} />
         <AircraftWrapper aircrafts={aircrafts} onAircraftClick={onAircraftClick} />
